@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <VBox styleClass="header">
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="20.0" padding="10">
+               <children>
+                  <Label fx:id="titleLabel" text="Health-ID Vault Dashboard" styleClass="header-label">
+                     <font>
+                        <Font name="Segoe UI Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Label fx:id="userInfoLabel" text="" styleClass="user-info">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="logoutButton" text="Logout" styleClass="button, danger" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="10.0" padding="10">
+               <children>
+                  <Button fx:id="myRecordsButton" text="My Records" styleClass="button, primary" />
+                  <Button fx:id="sharedWithMeButton" text="Shared With Me" styleClass="button" />
+                  <Button fx:id="uploadButton" text="Upload Files" styleClass="button, primary" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="searchField" prefWidth="300.0" promptText="Search files..." styleClass="search-box" />
+                  <Button fx:id="searchButton" text="Search" styleClass="button" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   
+   <center>
+      <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab text="Dashboard" closable="false">
+               <content>
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
+                     <content>
+                        <VBox spacing="20.0" padding="20">
+                           <children>
+                              <!-- Statistics Cards -->
+                              <HBox spacing="20.0" alignment="CENTER">
+                                 <children>
+                                    <VBox styleClass="dashboard-card" prefWidth="200.0" spacing="10">
+                                       <children>
+                                          <Label text="Total Files" styleClass="stat-label" />
+                                          <Label fx:id="totalFilesLabel" text="0" styleClass="stat-number" />
+                                       </children>
+                                    </VBox>
+                                    <VBox styleClass="dashboard-card" prefWidth="200.0" spacing="10">
+                                       <children>
+                                          <Label text="Storage Used" styleClass="stat-label" />
+                                          <Label fx:id="storageUsedLabel" text="0 MB" styleClass="stat-number" />
+                                       </children>
+                                    </VBox>
+                                    <VBox styleClass="dashboard-card" prefWidth="200.0" spacing="10">
+                                       <children>
+                                          <Label text="Shared Files" styleClass="stat-label" />
+                                          <Label fx:id="sharedFilesLabel" text="0" styleClass="stat-number" />
+                                       </children>
+                                    </VBox>
+                                    <VBox styleClass="dashboard-card" prefWidth="200.0" spacing="10">
+                                       <children>
+                                          <Label text="Recent Uploads" styleClass="stat-label" />
+                                          <Label fx:id="recentUploadsLabel" text="0" styleClass="stat-number" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              
+                              <!-- File Categories -->
+                              <VBox spacing="10">
+                                 <children>
+                                    <Label text="File Categories" styleClass="card-title" />
+                                    <HBox spacing="20.0" alignment="CENTER">
+                                       <children>
+                                          <VBox styleClass="dashboard-card" prefWidth="150.0" spacing="5">
+                                             <children>
+                                                <Label text="Prescriptions" styleClass="stat-label" />
+                                                <Label fx:id="prescriptionsLabel" text="0" styleClass="stat-number" />
+                                             </children>
+                                          </VBox>
+                                          <VBox styleClass="dashboard-card" prefWidth="150.0" spacing="5">
+                                             <children>
+                                                <Label text="Lab Reports" styleClass="stat-label" />
+                                                <Label fx:id="labReportsLabel" text="0" styleClass="stat-number" />
+                                             </children>
+                                          </VBox>
+                                          <VBox styleClass="dashboard-card" prefWidth="150.0" spacing="5">
+                                             <children>
+                                                <Label text="Imaging" styleClass="stat-label" />
+                                                <Label fx:id="imagingLabel" text="0" styleClass="stat-number" />
+                                             </children>
+                                          </VBox>
+                                          <VBox styleClass="dashboard-card" prefWidth="150.0" spacing="5">
+                                             <children>
+                                                <Label text="Medical History" styleClass="stat-label" />
+                                                <Label fx:id="medicalHistoryLabel" text="0" styleClass="stat-number" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Recent Files -->
+                              <VBox spacing="10">
+                                 <children>
+                                    <Label text="Recent Files" styleClass="card-title" />
+                                    <TableView fx:id="recentFilesTable" prefHeight="200.0">
+                                       <columns>
+                                          <TableColumn fx:id="fileNameColumn" text="File Name" prefWidth="200.0" />
+                                          <TableColumn fx:id="categoryColumn" text="Category" prefWidth="120.0" />
+                                          <TableColumn fx:id="uploadDateColumn" text="Upload Date" prefWidth="120.0" />
+                                          <TableColumn fx:id="fileSizeColumn" text="Size" prefWidth="100.0" />
+                                          <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="150.0" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+            
+            <Tab text="My Files" closable="false">
+               <content>
+                  <VBox spacing="10" padding="10">
+                     <children>
+                        <!-- Search and Filter -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                           <children>
+                              <TextField fx:id="fileSearchField" prefWidth="200.0" promptText="Search files..." styleClass="search-box" />
+                              <ComboBox fx:id="categoryFilter" prefWidth="150.0" promptText="Category" />
+                              <DatePicker fx:id="startDatePicker" promptText="Start Date" />
+                              <DatePicker fx:id="endDatePicker" promptText="End Date" />
+                              <Button fx:id="filterButton" text="Apply Filters" styleClass="button" />
+                              <Button fx:id="clearFiltersButton" text="Clear" styleClass="button, secondary" />
+                           </children>
+                        </HBox>
+                        
+                        <!-- Files Table -->
+                        <TableView fx:id="filesTable" VBox.vgrow="ALWAYS">
+                           <columns>
+                              <TableColumn fx:id="filesFileNameColumn" text="File Name" prefWidth="250.0" />
+                              <TableColumn fx:id="filesCategoryColumn" text="Category" prefWidth="120.0" />
+                              <TableColumn fx:id="filesDoctorColumn" text="Doctor" prefWidth="150.0" />
+                              <TableColumn fx:id="filesDateColumn" text="Upload Date" prefWidth="120.0" />
+                              <TableColumn fx:id="filesSizeColumn" text="Size" prefWidth="100.0" />
+                              <TableColumn fx:id="filesActionsColumn" text="Actions" prefWidth="200.0" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+            
+            <Tab text="Shared With Me" closable="false">
+               <content>
+                  <VBox spacing="10" padding="10">
+                     <children>
+                        <TableView fx:id="sharedWithMeTable" VBox.vgrow="ALWAYS">
+                           <columns>
+                              <TableColumn fx:id="sharedFileNameColumn" text="File Name" prefWidth="200.0" />
+                              <TableColumn fx:id="sharedOwnerColumn" text="Shared By" prefWidth="150.0" />
+                              <TableColumn fx:id="sharedAccessColumn" text="Access Level" prefWidth="100.0" />
+                              <TableColumn fx:id="sharedDateColumn" text="Shared Date" prefWidth="120.0" />
+                              <TableColumn fx:id="sharedExpiresColumn" text="Expires" prefWidth="120.0" />
+                              <TableColumn fx:id="sharedActionsColumn" text="Actions" prefWidth="150.0" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+            
+            <Tab text="Upload" closable="false">
+               <content>
+                  <ScrollPane fitToWidth="true">
+                     <content>
+                        <VBox spacing="20" padding="20" alignment="CENTER">
+                           <children>
+                              <Label text="Upload Medical Files" styleClass="card-title">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                              
+                              <VBox styleClass="upload-area" prefHeight="200.0" prefWidth="400.0" spacing="20" alignment="CENTER">
+                                 <children>
+                                    <Label text="Drag and drop files here or click to browse" styleClass="user-info">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="browseFilesButton" text="Browse Files" styleClass="button, primary" />
+                                    <Label fx:id="selectedFilesLabel" text="" styleClass="user-info" />
+                                 </children>
+                              </VBox>
+                              
+                              <GridPane hgap="15" vgap="15" alignment="CENTER">
+                                 <children>
+                                    <Label text="Category:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="form-label" />
+                                    <ComboBox fx:id="uploadCategoryComboBox" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                    
+                                    <Label text="Doctor Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="form-label" />
+                                    <TextField fx:id="doctorNameField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" 
+                                             promptText="Enter doctor name" styleClass="text-field" />
+                                    
+                                    <Label text="Hospital/Clinic:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="form-label" />
+                                    <TextField fx:id="hospitalNameField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" 
+                                             promptText="Enter hospital name" styleClass="text-field" />
+                                    
+                                    <Label text="Upload Date:" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="form-label" />
+                                    <DatePicker fx:id="uploadDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    
+                                    <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="4" styleClass="form-label" />
+                                    <TextArea fx:id="descriptionArea" prefWidth="200.0" prefHeight="80.0" GridPane.columnIndex="1" GridPane.rowIndex="4" 
+                                              promptText="Enter description" styleClass="text-area" />
+                                    
+                                    <Label text="Tags:" GridPane.columnIndex="0" GridPane.rowIndex="5" styleClass="form-label" />
+                                    <TextField fx:id="tagsField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" 
+                                             promptText="Enter tags separated by commas" styleClass="text-field" />
+                                 </children>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="120.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
+                                 </columnConstraints>
+                              </GridPane>
+                              
+                              <HBox spacing="15" alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="uploadButton2" text="Upload Files" styleClass="button, primary" prefWidth="120.0" />
+                                    <Button fx:id="clearUploadButton" text="Clear" styleClass="button, secondary" prefWidth="120.0" />
+                                 </children>
+                              </HBox>
+                              
+                              <ProgressBar fx:id="uploadProgressBar" prefWidth="400.0" visible="false" />
+                              <Label fx:id="uploadStatusLabel" text="" styleClass="user-info" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+            
+            <Tab text="Profile" closable="false">
+               <content>
+                  <ScrollPane fitToWidth="true">
+                     <content>
+                        <VBox spacing="20" padding="20">
+                           <children>
+                              <Label text="My Profile" styleClass="card-title">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                              
+                              <GridPane hgap="15" vgap="15">
+                                 <children>
+                                    <Label text="Health ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="form-label" />
+                                    <Label fx:id="healthIdLabel" text="" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="user-info" />
+                                    
+                                    <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="form-label" />
+                                    <TextField fx:id="nameField" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field" />
+                                    
+                                    <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="form-label" />
+                                    <Label fx:id="emailLabel" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="user-info" />
+                                    
+                                    <Label text="Phone:" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="form-label" />
+                                    <TextField fx:id="phoneField" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="text-field" />
+                                    
+                                    <Label text="Date of Birth:" GridPane.columnIndex="0" GridPane.rowIndex="4" styleClass="form-label" />
+                                    <Label fx:id="dobLabel" text="" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="user-info" />
+                                    
+                                    <Label text="Address:" GridPane.columnIndex="0" GridPane.rowIndex="5" styleClass="form-label" />
+                                    <TextArea fx:id="addressArea" prefWidth="250.0" prefHeight="80.0" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="text-area" />
+                                    
+                                    <Label text="Emergency Contact:" GridPane.columnIndex="0" GridPane.rowIndex="6" styleClass="form-label" />
+                                    <TextField fx:id="emergencyContactField" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="6" styleClass="text-field" />
+                                 </children>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="120.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" />
+                                 </columnConstraints>
+                              </GridPane>
+                              
+                              <HBox spacing="15" alignment="CENTER_LEFT">
+                                 <children>
+                                    <Button fx:id="updateProfileButton" text="Update Profile" styleClass="button, primary" />
+                                    <Button fx:id="changePasswordButton" text="Change Password" styleClass="button" />
+                                    <Button fx:id="generateQRButton" text="Generate QR Code" styleClass="button" />
+                                 </children>
+                              </HBox>
+                              
+                              <Label fx:id="profileStatusLabel" text="" styleClass="user-info" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
